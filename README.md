@@ -338,19 +338,6 @@ localStorage.clear()
 
 **Solution**: Update the `corsMiddleware` in `backend/main.go` to include your domain.
 
-## 🤝 Contributing
-
-Contributions are welcome! Here are some ideas:
-
-- [ ] Import/Export passwords (encrypted backup)
-- [ ] Password history tracking
-- [ ] Two-factor authentication for the app
-- [ ] Browser extension
-- [ ] Mobile app
-- [ ] Password breach detection
-- [ ] Secure notes (not just passwords)
-- [ ] Team/family sharing
-
 ## 📄 License
 
 MIT License - feel free to use this project however you'd like!
@@ -361,17 +348,6 @@ MIT License - feel free to use this project however you'd like!
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 - Encryption via [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
-## 📞 Support
+**Made with 💜 by a DevOpsSec Eduard Shanovskiy and fullstack Gleb Deviatka**
 
-Having issues? Here's how to get help:
-
-1. Check the **Troubleshooting** section above
-2. Review the **Usage Guide** for step-by-step instructions
-3. Check browser console for error messages
-4. Ensure backend is running: `http://localhost:8080/api/health`
-
----
-
-**Made with 💜 by a Senior Full-Stack Developer**
-
-*Keep your passwords secure! 🔐*
+*Keep your passwords secure!*
