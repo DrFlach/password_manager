@@ -281,34 +281,52 @@ class PasswordManager {
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold text-primary-light mb-1">${this.escapeHtml(password.serviceName)}</h3>
                         <p class="text-gray-400 text-sm">${this.escapeHtml(password.username)}</p>
-                        ${password.url ? `<a href="${this.escapeHtml(password.url)}" target="_blank" class="text-accent text-sm hover:underline">🔗 ${this.escapeHtml(password.url)}</a>` : ''}
+                        ${password.url ? `<a href="${this.escapeHtml(password.url)}" target="_blank" class="text-accent text-sm hover:underline flex items-center gap-1 mt-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                            ${this.escapeHtml(password.url)}
+                        </a>` : ''}
                     </div>
                     <div class="flex gap-2">
                         <button onclick="passwordManager.sharePassword('${password.id}')" 
                             class="bg-accent hover:opacity-90 p-2 rounded-lg transition-all" title="Share">
-                            📤
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                            </svg>
                         </button>
                         <button onclick="passwordManager.editPassword('${password.id}')" 
                             class="bg-primary hover:bg-primary-dark p-2 rounded-lg transition-all" title="Edit">
-                            ✏️
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
                         </button>
                         <button onclick="passwordManager.deletePassword('${password.id}')" 
                             class="bg-red-600 hover:bg-red-700 p-2 rounded-lg transition-all" title="Delete">
-                            🗑️
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
                         </button>
                     </div>
                 </div>
                 
                 <div class="bg-bg-medium rounded-lg p-3 mb-3 flex items-center justify-between">
-                    <code class="font-mono text-accent">••••••••</code>
+                    <code class="font-mono text-accent password-display">••••••••</code>
                     <div class="flex gap-2">
                         <button onclick="passwordManager.togglePasswordVisibility('${password.id}', this)" 
-                            class="bg-primary hover:bg-primary-dark px-3 py-1 rounded transition-all text-sm">
-                            👁️ Show
+                            class="bg-gray-600 hover:bg-gray-500 px-3 py-1.5 rounded transition-all text-sm flex items-center gap-1.5 font-medium">
+                            <svg class="w-4 h-4 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            <span class="btn-text">Show</span>
                         </button>
                         <button onclick="passwordManager.copyPassword('${password.id}')" 
-                            class="bg-primary hover:bg-primary-dark px-3 py-1 rounded transition-all text-sm">
-                            📋 Copy
+                            class="bg-primary hover:bg-primary-dark px-3 py-1.5 rounded transition-all text-sm flex items-center gap-1.5 font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy
                         </button>
                     </div>
                 </div>
@@ -334,13 +352,17 @@ class PasswordManager {
         if (!password) return;
 
         const codeElement = button.parentElement.previousElementSibling;
+        const btnText = button.querySelector('.btn-text');
+        const eyeIcon = button.querySelector('.eye-icon');
         
         if (codeElement.textContent === '••••••••') {
             codeElement.textContent = password.password;
-            button.innerHTML = '🙈 Hide';
+            btnText.textContent = 'Hide';
+            eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>';
         } else {
             codeElement.textContent = '••••••••';
-            button.innerHTML = '👁️ Show';
+            btnText.textContent = 'Show';
+            eyeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
         }
     }
 

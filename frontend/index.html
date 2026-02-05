@@ -66,14 +66,22 @@
         <!-- Header -->
         <header class="mb-8 fade-in">
             <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">
-                        🔐 Secure Password Manager
-                    </h1>
-                    <p class="text-gray-400 mt-2">Your passwords, encrypted and secure</p>
+                <div class="flex items-center">
+                    <svg class="w-10 h-10 text-primary-light mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                    <div>
+                        <h1 class="text-4xl font-bold bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">
+                            Secure Password Manager
+                        </h1>
+                        <p class="text-gray-400 mt-1">Your passwords, encrypted and secure</p>
+                    </div>
                 </div>
-                <button id="generateBtn" class="bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg">
-                    ⚡ Generate Password
+                <button id="generateBtn" class="bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Generate Password
                 </button>
             </div>
         </header>
@@ -101,7 +109,10 @@
                                 <input type="password" id="password" required 
                                     class="w-full bg-bg-medium border border-gray-700 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
                                 <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-                                    👁️
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -131,8 +142,13 @@
             <div class="lg:col-span-2">
                 <!-- Search Bar -->
                 <div class="bg-bg-dark rounded-xl p-4 shadow-2xl border border-bg-medium mb-4 slide-up">
-                    <input type="text" id="searchInput" placeholder="🔍 Search passwords..." 
-                        class="w-full bg-bg-medium border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
+                    <div class="relative">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search passwords..." 
+                            class="w-full bg-bg-medium border border-gray-700 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition-all">
+                    </div>
                 </div>
 
                 <!-- Password Cards -->
@@ -142,7 +158,9 @@
 
                 <!-- Empty State -->
                 <div id="emptyState" class="hidden bg-bg-dark rounded-xl p-12 shadow-2xl border border-bg-medium text-center">
-                    <div class="text-6xl mb-4">🔒</div>
+                    <svg class="w-16 h-16 mx-auto text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
                     <h3 class="text-xl font-semibold text-gray-300 mb-2">No passwords yet</h3>
                     <p class="text-gray-500">Add your first password to get started</p>
                 </div>
@@ -153,13 +171,21 @@
     <!-- Password Generator Modal -->
     <div id="generatorModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
         <div class="bg-bg-dark rounded-xl p-8 max-w-md w-full shadow-2xl border border-bg-medium fade-in">
-            <h2 class="text-2xl font-bold mb-6 text-primary-light">Password Generator</h2>
+            <h2 class="text-2xl font-bold mb-6 text-primary-light flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                </svg>
+                Password Generator
+            </h2>
             
             <!-- Generated Password Display -->
             <div class="bg-bg-medium rounded-lg p-4 mb-6 flex items-center justify-between border border-gray-700">
                 <code id="generatedPassword" class="text-lg font-mono text-accent flex-1">Click generate</code>
-                <button id="copyGenerated" class="ml-3 bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg transition-all">
-                    📋 Copy
+                <button id="copyGenerated" class="ml-3 bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg transition-all flex items-center gap-2 text-sm font-medium">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    Copy
                 </button>
             </div>
 
@@ -223,7 +249,12 @@
     <!-- Share Modal -->
     <div id="shareModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
         <div class="bg-bg-dark rounded-xl p-8 max-w-lg w-full shadow-2xl border border-bg-medium fade-in">
-            <h2 class="text-2xl font-bold mb-6 text-primary-light">Share Password Securely</h2>
+            <h2 class="text-2xl font-bold mb-6 text-primary-light flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                </svg>
+                Share Password Securely
+            </h2>
             
             <div id="shareLoading" class="hidden text-center py-8">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
@@ -231,27 +262,40 @@
             </div>
 
             <div id="shareSuccess" class="hidden">
-                <div class="bg-green-900 bg-opacity-30 border border-green-700 rounded-lg p-4 mb-4">
-                    <p class="text-green-300">✓ Secure share link created!</p>
+                <div class="bg-green-900 bg-opacity-30 border border-green-700 rounded-lg p-4 mb-4 flex items-center">
+                    <svg class="w-5 h-5 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <p class="text-green-300">Secure share link created!</p>
                 </div>
                 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-300 mb-2">Share Link</label>
                     <div class="bg-bg-medium rounded-lg p-3 flex items-center gap-2 border border-gray-700">
                         <input type="text" id="shareLink" readonly class="flex-1 bg-transparent focus:outline-none text-accent font-mono text-sm">
-                        <button id="copyShareLink" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg transition-all">
-                            📋 Copy
+                        <button id="copyShareLink" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg transition-all flex items-center gap-2 text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy
                         </button>
                     </div>
                 </div>
 
                 <div class="bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded-lg p-4 mb-4">
-                    <p class="text-yellow-300 text-sm">
-                        ⚠️ <strong>Security Notice:</strong><br>
-                        • Link expires: <span id="expiresAt" class="font-mono"></span><br>
-                        • One-time use only - link becomes invalid after viewing<br>
-                        • Password is encrypted end-to-end
-                    </p>
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-yellow-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <div class="text-yellow-300 text-sm">
+                            <strong>Security Notice:</strong><br>
+                            <ul class="mt-1 space-y-1">
+                                <li>• Link expires: <span id="expiresAt" class="font-mono"></span></li>
+                                <li>• One-time use only - link becomes invalid after viewing</li>
+                                <li>• Password is encrypted end-to-end</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -267,7 +311,10 @@
             </div>
 
             <div class="flex gap-3">
-                <button id="createShareLink" class="flex-1 bg-primary hover:bg-primary-dark px-4 py-3 rounded-lg font-semibold transition-all">
+                <button id="createShareLink" class="flex-1 bg-primary hover:bg-primary-dark px-4 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                    </svg>
                     Create Link
                 </button>
                 <button id="closeShare" class="bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg font-semibold transition-all">
