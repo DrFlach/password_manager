@@ -7,31 +7,25 @@ class PasswordManager {
         this.passwords = [];
         this.currentEditId = null;
         this.currentSharePasswordId = null;
-        // Автоматически определяем URL API
         this.apiBaseUrl = this.getApiBaseUrl();
         this.init();
     }
 
     /**
-     * Определяет базовый URL для API (локально или на продакшене)
+     * Get API base URL based on environment
      */
     getApiBaseUrl() {
-        // Если запущено локально
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             return 'http://localhost:8080/api';
         }
-        // На продакшене используем текущий домен
         return `${window.location.protocol}//${window.location.host}/api`;
     }
 
     async init() {
-        // Проверяем, не share ли это страница - если да, ничего не делаем
-        // (share страница обслуживается отдельным share.html)
         if (window.location.pathname.startsWith('/share/')) {
             return;
         }
         
-        // Загружаем пароли и ждем завершения
         await this.loadPasswords();
         this.setupEventListeners();
         this.renderPasswords();
@@ -470,9 +464,6 @@ class PasswordManager {
         document.getElementById('shareLoading').classList.remove('hidden');
 
         try {
-            // Передаем пароль напрямую - сервер хранит временно
-            // (клиентское шифрование не подходит, т.к. ключ уникален для каждого браузера)
-
             const response = await fetch(`${this.apiBaseUrl}/share`, {
                 method: 'POST',
                 headers: {
@@ -493,7 +484,6 @@ class PasswordManager {
 
             const data = await response.json();
 
-            // Формируем правильный share URL на основе текущего домена
             const shareUrl = `${window.location.protocol}//${window.location.host}/share/${data.token}`;
 
             // Show success
@@ -535,9 +525,9 @@ class PasswordManager {
                 // Ensure we always show something even if there's an unexpected error
                 this.showSharePage(null, 'An unexpected error occurred. Please try again.');
             }
-            return true; // Это share страница
+            return true;
         }
-        return false; // Обычная страница
+        return false;
     }
 
     /**
@@ -575,7 +565,6 @@ class PasswordManager {
                 return;
             }
             
-            // Пароль приходит напрямую, без шифрования
             this.showSharePage({
                 serviceName: data.service_name || 'Unknown Service',
                 username: data.username || 'Unknown',

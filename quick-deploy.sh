@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Быстрый деплой исправления 404 для share ссылок
-
 echo "🚀 Deploying fix for share links 404 error..."
 
 git add backend/main.go frontend/app.js
