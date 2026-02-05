@@ -25,9 +25,15 @@ class PasswordManager {
     }
 
     async init() {
-        this.loadPasswords();
-        this.setupEventListeners();
-        this.renderPasswords();
+        // Сначала проверяем, не share ли это страница
+        await this.checkSharePage();
+        
+        // Если это не share страница, загружаем обычные данные
+        if (!window.location.pathname.startsWith('/share/')) {
+            this.loadPasswords();
+            this.setupEventListeners();
+            this.renderPasswords();
+        }
     }
 
     /**
@@ -138,9 +144,6 @@ class PasswordManager {
             const link = document.getElementById('shareLink').value;
             this.copyToClipboard(link);
         });
-
-        // Check if we're on a share page
-        this.checkSharePage();
     }
 
     /**

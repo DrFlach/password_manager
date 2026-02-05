@@ -86,8 +86,34 @@ func main() {
 		frontendPath = "/app/frontend"
 	}
 
+	// Create file server
 	fs := http.FileServer(http.Dir(frontendPath))
-	http.Handle("/", fs)
+	
+	// Handle all routes - serve index.html for SPA routing
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// If it's an API request, it should have been handled above
+		if len(r.URL.Path) >= 4 && r.URL.Path[:4] == "/api" {
+			http.NotFound(w, r)
+			return
+		}
+		
+		// For /share/* routes, serve index.html (SPA routing)
+		if len(r.URL.Path) >= 6 && r.URL.Path[:6] == "/share" {
+			http.ServeFile(w, r, frontendPath+"/index.html")
+			return
+		}
+		
+		// Check if file exists
+		path := frontendPath + r.URL.Path
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			// File doesn't exist, serve index.html for client-side routing
+			http.ServeFile(w, r, frontendPath+"/index.html")
+			return
+		}
+		
+		// Serve the requested file
+		fs.ServeHTTP(w, r)
+	})
 
 	log.Printf("🔐 Password Manager Server starting on port %s", port)
 	log.Printf("📍 Base URL: %s", baseURL)
