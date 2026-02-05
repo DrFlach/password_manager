@@ -56,12 +56,18 @@
 
         <!-- Success state (hidden by default) -->
         <div id="successState" class="hidden">
-            <h1 class="text-3xl font-bold mb-6 text-center text-primary-light">
-                🔐 Shared Password
-            </h1>
+            <div class="flex items-center justify-center mb-6">
+                <svg class="w-8 h-8 text-primary-light mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <h1 class="text-3xl font-bold text-primary-light">Shared Password</h1>
+            </div>
 
-            <div class="bg-green-900 bg-opacity-30 border border-green-700 rounded-lg p-4 mb-6">
-                <p class="text-green-300">✓ Password retrieved successfully!</p>
+            <div class="bg-green-900 bg-opacity-30 border border-green-700 rounded-lg p-4 mb-6 flex items-center">
+                <svg class="w-5 h-5 text-green-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <p class="text-green-300">Password retrieved successfully!</p>
             </div>
 
             <div class="space-y-4 mb-6">
@@ -72,42 +78,66 @@
 
                 <div id="urlSection" class="hidden">
                     <label class="block text-sm font-medium text-gray-400 mb-2">Website URL</label>
-                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-2">
                         <a id="urlLink" href="#" target="_blank" class="text-accent hover:underline break-all flex-1"></a>
-                        <button id="copyUrlBtn" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg text-white transition-all whitespace-nowrap">
-                            📋 Copy
+                        <button id="copyUrlBtn" class="bg-primary hover:bg-primary-dark px-3 py-2 rounded-lg text-white transition-all whitespace-nowrap flex items-center gap-2 text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy
                         </button>
                     </div>
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-400 mb-2">Username / Email</label>
-                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-2">
                         <span id="username" class="text-white break-all flex-1"></span>
-                        <button id="copyUsernameBtn" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg text-white transition-all whitespace-nowrap">
-                            📋 Copy
+                        <button id="copyUsernameBtn" class="bg-primary hover:bg-primary-dark px-3 py-2 rounded-lg text-white transition-all whitespace-nowrap flex items-center gap-2 text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy
                         </button>
                     </div>
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
-                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-2">
                         <code id="password" class="font-mono text-accent break-all flex-1"></code>
-                        <button id="copyBtn" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg text-white transition-all whitespace-nowrap">
-                            📋 Copy
-                        </button>
+                        <div class="flex gap-2">
+                            <button id="togglePasswordBtn" class="bg-gray-600 hover:bg-gray-500 px-3 py-2 rounded-lg text-white transition-all whitespace-nowrap flex items-center gap-2 text-sm font-medium">
+                                <svg id="eyeIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                </svg>
+                                <span id="toggleText">Hide</span>
+                            </button>
+                            <button id="copyBtn" class="bg-primary hover:bg-primary-dark px-3 py-2 rounded-lg text-white transition-all whitespace-nowrap flex items-center gap-2 text-sm font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded-lg p-4 mb-6">
-                <p class="text-yellow-300 text-sm">
-                    ⚠️ <strong>Security Notice:</strong><br>
-                    • This link has been destroyed and can no longer be accessed<br>
-                    • Make sure to save the password securely<br>
-                    • Shared at: <span id="createdAt"></span>
-                </p>
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-yellow-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <div class="text-yellow-300 text-sm">
+                        <strong>Security Notice:</strong><br>
+                        <ul class="mt-1 space-y-1">
+                            <li>• This link has been destroyed and can no longer be accessed</li>
+                            <li>• Make sure to save the password securely</li>
+                            <li>• Shared at: <span id="createdAt"></span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <a href="/" class="block text-center bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg font-semibold text-white transition-all">
@@ -117,12 +147,18 @@
 
         <!-- Error state (hidden by default) -->
         <div id="errorState" class="hidden">
-            <h1 class="text-3xl font-bold mb-6 text-center text-primary-light">
-                🔐 Shared Password
-            </h1>
+            <div class="flex items-center justify-center mb-6">
+                <svg class="w-8 h-8 text-primary-light mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <h1 class="text-3xl font-bold text-primary-light">Shared Password</h1>
+            </div>
 
-            <div class="bg-red-900 bg-opacity-30 border border-red-700 rounded-lg p-4 mb-6">
-                <p id="errorMessage" class="text-red-300">❌ </p>
+            <div class="bg-red-900 bg-opacity-30 border border-red-700 rounded-lg p-4 mb-6 flex items-center">
+                <svg class="w-5 h-5 text-red-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <p id="errorMessage" class="text-red-300"></p>
             </div>
 
             <a href="/" class="block text-center bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg font-semibold text-white transition-all">
@@ -156,23 +192,64 @@
             return str.replace(/[&<>"']/g, m => map[m]);
         }
 
+        // SVG icons
+        const icons = {
+            copy: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>`,
+            check: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>`,
+            eyeOff: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+            </svg>`,
+            eye: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>`
+        };
+
         // Helper function to setup copy button
         function setupCopyButton(buttonId, textToCopy) {
             document.getElementById(buttonId).addEventListener('click', async () => {
                 try {
                     await navigator.clipboard.writeText(textToCopy);
                     const btn = document.getElementById(buttonId);
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = '✓ Copied!';
+                    btn.innerHTML = `${icons.check} <span>Copied!</span>`;
                     btn.classList.add('bg-green-600');
                     btn.classList.remove('bg-primary');
                     setTimeout(() => {
-                        btn.innerHTML = originalText;
+                        btn.innerHTML = `${icons.copy} <span>Copy</span>`;
                         btn.classList.remove('bg-green-600');
                         btn.classList.add('bg-primary');
                     }, 2000);
                 } catch (err) {
                     alert('Failed to copy. Please copy manually.');
+                }
+            });
+        }
+
+        // Password visibility state
+        let passwordVisible = true;
+        let actualPassword = '';
+
+        // Setup password toggle
+        function setupPasswordToggle() {
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            const passwordEl = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const toggleText = document.getElementById('toggleText');
+
+            toggleBtn.addEventListener('click', () => {
+                passwordVisible = !passwordVisible;
+                if (passwordVisible) {
+                    passwordEl.textContent = actualPassword;
+                    eyeIcon.outerHTML = icons.eyeOff.replace('class="w-4 h-4"', 'id="eyeIcon" class="w-4 h-4"');
+                    toggleText.textContent = 'Hide';
+                } else {
+                    passwordEl.textContent = '•'.repeat(actualPassword.length);
+                    eyeIcon.outerHTML = icons.eye.replace('class="w-4 h-4"', 'id="eyeIcon" class="w-4 h-4"');
+                    toggleText.textContent = 'Show';
                 }
             });
         }
@@ -185,7 +262,11 @@
 
             document.getElementById('serviceName').textContent = data.service_name || 'Unknown Service';
             document.getElementById('username').textContent = data.username || 'Unknown';
+            
+            // Store actual password and display it
+            actualPassword = data.password;
             document.getElementById('password').textContent = data.password;
+            
             document.getElementById('createdAt').textContent = data.created_at 
                 ? new Date(data.created_at).toLocaleString() 
                 : 'Unknown';
@@ -203,6 +284,9 @@
             // Setup copy buttons
             setupCopyButton('copyUsernameBtn', data.username || '');
             setupCopyButton('copyBtn', data.password);
+            
+            // Setup password toggle
+            setupPasswordToggle();
         }
 
         // Show error state
@@ -210,7 +294,7 @@
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('successState').classList.add('hidden');
             document.getElementById('errorState').classList.remove('hidden');
-            document.getElementById('errorMessage').textContent = '❌ ' + message;
+            document.getElementById('errorMessage').textContent = message;
         }
 
         // Load shared password
