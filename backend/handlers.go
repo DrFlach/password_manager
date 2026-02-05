@@ -35,7 +35,7 @@ func CreateShareHandler(store *ShareStore, baseURL string) http.HandlerFunc {
 		}
 
 		// Validate required fields
-		if req.EncryptedPassword == "" || req.ServiceName == "" || req.Username == "" {
+		if req.Password == "" || req.ServiceName == "" || req.Username == "" {
 			http.Error(w, "Missing required fields", http.StatusBadRequest)
 			return
 		}
@@ -57,12 +57,12 @@ func CreateShareHandler(store *ShareStore, baseURL string) http.HandlerFunc {
 		// Create share data
 		now := time.Now()
 		shareData := &ShareData{
-			EncryptedPassword: req.EncryptedPassword,
-			ServiceName:       req.ServiceName,
-			Username:          req.Username,
-			CreatedAt:         now,
-			ExpiresAt:         now.Add(time.Duration(expirationHours) * time.Hour),
-			Viewed:            false,
+			Password:    req.Password,
+			ServiceName: req.ServiceName,
+			Username:    req.Username,
+			CreatedAt:   now,
+			ExpiresAt:   now.Add(time.Duration(expirationHours) * time.Hour),
+			Viewed:      false,
 		}
 
 		// Store the share
@@ -118,11 +118,11 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 		// Check if already viewed (one-time use)
 		if shareData.Viewed {
 			response := ShareRetrieveResponse{
-				EncryptedPassword: "",
-				ServiceName:       shareData.ServiceName,
-				Username:          shareData.Username,
-				CreatedAt:         shareData.CreatedAt,
-				ViewedAt:          shareData.ViewedAt,
+				Password:    "",
+				ServiceName: shareData.ServiceName,
+				Username:    shareData.Username,
+				CreatedAt:   shareData.CreatedAt,
+				ViewedAt:    shareData.ViewedAt,
 			}
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusGone)
@@ -137,11 +137,11 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 		store.MarkViewed(token)
 		
 		response := ShareRetrieveResponse{
-			EncryptedPassword: shareData.EncryptedPassword,
-			ServiceName:       shareData.ServiceName,
-			Username:          shareData.Username,
-			CreatedAt:         shareData.CreatedAt,
-			ViewedAt:          shareData.ViewedAt,
+			Password:    shareData.Password,
+			ServiceName: shareData.ServiceName,
+			Username:    shareData.Username,
+			CreatedAt:   shareData.CreatedAt,
+			ViewedAt:    shareData.ViewedAt,
 		}
 
 		// Delete immediately after viewing (one-time use)

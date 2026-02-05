@@ -7,21 +7,21 @@ import (
 
 // ShareData represents a password share with expiration and view tracking
 type ShareData struct {
-	EncryptedPassword string    `json:"encrypted_password"`
-	ServiceName       string    `json:"service_name"`
-	Username          string    `json:"username"`
-	CreatedAt         time.Time `json:"created_at"`
-	ExpiresAt         time.Time `json:"expires_at"`
-	Viewed            bool      `json:"viewed"`
-	ViewedAt          *time.Time `json:"viewed_at,omitempty"`
+	Password    string    `json:"password"`
+	ServiceName string    `json:"service_name"`
+	Username    string    `json:"username"`
+	CreatedAt   time.Time `json:"created_at"`
+	ExpiresAt   time.Time `json:"expires_at"`
+	Viewed      bool      `json:"viewed"`
+	ViewedAt    *time.Time `json:"viewed_at,omitempty"`
 }
 
 // ShareRequest represents the incoming request to create a share
 type ShareRequest struct {
-	EncryptedPassword string `json:"encrypted_password" binding:"required"`
-	ServiceName       string `json:"service_name" binding:"required"`
-	Username          string `json:"username" binding:"required"`
-	ExpirationHours   int    `json:"expiration_hours"` // default 24 if not set
+	Password        string `json:"password" binding:"required"`
+	ServiceName     string `json:"service_name" binding:"required"`
+	Username        string `json:"username" binding:"required"`
+	ExpirationHours int    `json:"expiration_hours"` // default 24 if not set
 }
 
 // ShareResponse represents the response when creating a share
@@ -33,11 +33,11 @@ type ShareResponse struct {
 
 // ShareRetrieveResponse represents the response when retrieving a share
 type ShareRetrieveResponse struct {
-	EncryptedPassword string     `json:"encrypted_password"`
-	ServiceName       string     `json:"service_name"`
-	Username          string     `json:"username"`
-	CreatedAt         time.Time  `json:"created_at"`
-	ViewedAt          *time.Time `json:"viewed_at,omitempty"`
+	Password    string     `json:"password"`
+	ServiceName string     `json:"service_name"`
+	Username    string     `json:"username"`
+	CreatedAt   time.Time  `json:"created_at"`
+	ViewedAt    *time.Time `json:"viewed_at,omitempty"`
 }
 
 // ShareStore manages the in-memory storage of password shares

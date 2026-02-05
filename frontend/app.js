@@ -450,8 +450,8 @@ class PasswordManager {
         document.getElementById('shareLoading').classList.remove('hidden');
 
         try {
-            // Encrypt password for sharing
-            const encryptedPassword = await cryptoManager.encrypt(password.password);
+            // Передаем пароль напрямую - сервер хранит временно
+            // (клиентское шифрование не подходит, т.к. ключ уникален для каждого браузера)
 
             const response = await fetch(`${this.apiBaseUrl}/share`, {
                 method: 'POST',
@@ -459,7 +459,7 @@ class PasswordManager {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    encrypted_password: encryptedPassword,
+                    password: password.password,
                     service_name: password.serviceName,
                     username: password.username,
                     expiration_hours: expirationHours
@@ -518,6 +518,7 @@ class PasswordManager {
      */
     async loadSharedPassword(token) {
         try {
+            console.log('Loading shared password for token:', token);
             const response = await fetch(`${this.apiBaseUrl}/share/${token}`);
             
             if (!response.ok) {
@@ -531,14 +532,13 @@ class PasswordManager {
             }
 
             const data = await response.json();
+            console.log('Received share data:', data);
             
-            // Decrypt password
-            const decryptedPassword = await cryptoManager.decrypt(data.encrypted_password);
-            
+            // Пароль приходит напрямую, без шифрования
             this.showSharePage({
                 serviceName: data.service_name,
                 username: data.username,
-                password: decryptedPassword,
+                password: data.password,
                 createdAt: data.created_at
             });
         } catch (error) {
