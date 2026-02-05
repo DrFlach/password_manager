@@ -1,12 +1,12 @@
-# Git
+#Git
 .git
 .gitignore
 
-# Documentation
+#Documentation
 README.md
 *.md
 
-# Development files
+#Dev files
 .vscode
 .idea
 
@@ -14,9 +14,9 @@ README.md
 backend/password-manager
 backend/*.exe
 
-# OS files
+#OS files
 .DS_Store
 Thumbs.db
 
-# Logs
+#Logs
 *.log
