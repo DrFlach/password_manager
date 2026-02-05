@@ -69,10 +69,25 @@
                     <label class="block text-sm font-medium text-gray-400 mb-2">Service</label>
                     <div id="serviceName" class="bg-bg-medium rounded-lg px-4 py-3 text-white"></div>
                 </div>
+
+                <div id="urlSection" class="hidden">
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Website URL</label>
+                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+                        <a id="urlLink" href="#" target="_blank" class="text-accent hover:underline break-all flex-1"></a>
+                        <button id="copyUrlBtn" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg text-white transition-all whitespace-nowrap">
+                            📋 Copy
+                        </button>
+                    </div>
+                </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-2">Username</label>
-                    <div id="username" class="bg-bg-medium rounded-lg px-4 py-3 text-white"></div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Username / Email</label>
+                    <div class="bg-bg-medium rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+                        <span id="username" class="text-white break-all flex-1"></span>
+                        <button id="copyUsernameBtn" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg text-white transition-all whitespace-nowrap">
+                            📋 Copy
+                        </button>
+                    </div>
                 </div>
                 
                 <div>
@@ -141,6 +156,27 @@
             return str.replace(/[&<>"']/g, m => map[m]);
         }
 
+        // Helper function to setup copy button
+        function setupCopyButton(buttonId, textToCopy) {
+            document.getElementById(buttonId).addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    const btn = document.getElementById(buttonId);
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '✓ Copied!';
+                    btn.classList.add('bg-green-600');
+                    btn.classList.remove('bg-primary');
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('bg-green-600');
+                        btn.classList.add('bg-primary');
+                    }, 2000);
+                } catch (err) {
+                    alert('Failed to copy. Please copy manually.');
+                }
+            });
+        }
+
         // Show success state
         function showSuccess(data) {
             document.getElementById('loadingState').classList.add('hidden');
@@ -154,18 +190,19 @@
                 ? new Date(data.created_at).toLocaleString() 
                 : 'Unknown';
 
-            // Setup copy button
-            document.getElementById('copyBtn').addEventListener('click', async () => {
-                try {
-                    await navigator.clipboard.writeText(data.password);
-                    document.getElementById('copyBtn').innerHTML = '✓ Copied!';
-                    setTimeout(() => {
-                        document.getElementById('copyBtn').innerHTML = '📋 Copy';
-                    }, 2000);
-                } catch (err) {
-                    alert('Failed to copy. Please copy manually.');
-                }
-            });
+            // Show URL section if URL exists
+            if (data.url) {
+                const urlSection = document.getElementById('urlSection');
+                const urlLink = document.getElementById('urlLink');
+                urlSection.classList.remove('hidden');
+                urlLink.href = data.url;
+                urlLink.textContent = data.url;
+                setupCopyButton('copyUrlBtn', data.url);
+            }
+
+            // Setup copy buttons
+            setupCopyButton('copyUsernameBtn', data.username || '');
+            setupCopyButton('copyBtn', data.password);
         }
 
         // Show error state

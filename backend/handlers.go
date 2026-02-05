@@ -60,6 +60,7 @@ func CreateShareHandler(store *ShareStore, baseURL string) http.HandlerFunc {
 			Password:    req.Password,
 			ServiceName: req.ServiceName,
 			Username:    req.Username,
+			URL:         req.URL,
 			CreatedAt:   now,
 			ExpiresAt:   now.Add(time.Duration(expirationHours) * time.Hour),
 			Viewed:      false,
@@ -124,6 +125,7 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 				Password:    "",
 				ServiceName: shareData.ServiceName,
 				Username:    shareData.Username,
+				URL:         shareData.URL,
 				CreatedAt:   shareData.CreatedAt,
 				ViewedAt:    shareData.ViewedAt,
 			}
@@ -143,6 +145,7 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 			Password:    shareData.Password,
 			ServiceName: shareData.ServiceName,
 			Username:    shareData.Username,
+			URL:         shareData.URL,
 			CreatedAt:   shareData.CreatedAt,
 			ViewedAt:    shareData.ViewedAt,
 		}

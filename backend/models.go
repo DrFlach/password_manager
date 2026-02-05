@@ -10,6 +10,7 @@ type ShareData struct {
 	Password    string    `json:"password"`
 	ServiceName string    `json:"service_name"`
 	Username    string    `json:"username"`
+	URL         string    `json:"url,omitempty"`
 	CreatedAt   time.Time `json:"created_at"`
 	ExpiresAt   time.Time `json:"expires_at"`
 	Viewed      bool      `json:"viewed"`
@@ -21,6 +22,7 @@ type ShareRequest struct {
 	Password        string `json:"password" binding:"required"`
 	ServiceName     string `json:"service_name" binding:"required"`
 	Username        string `json:"username" binding:"required"`
+	URL             string `json:"url"`
 	ExpirationHours int    `json:"expiration_hours"` // default 24 if not set
 }
 
@@ -36,6 +38,7 @@ type ShareRetrieveResponse struct {
 	Password    string     `json:"password"`
 	ServiceName string     `json:"service_name"`
 	Username    string     `json:"username"`
+	URL         string     `json:"url,omitempty"`
 	CreatedAt   time.Time  `json:"created_at"`
 	ViewedAt    *time.Time `json:"viewed_at,omitempty"`
 }

@@ -460,6 +460,7 @@ class PasswordManager {
                     password: password.password,
                     service_name: password.serviceName,
                     username: password.username,
+                    url: password.url || '',
                     expiration_hours: expirationHours
                 })
             });
