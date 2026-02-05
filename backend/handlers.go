@@ -78,8 +78,8 @@ func CreateShareHandler(store *ShareStore, baseURL string) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
-		
-		log.Printf("Created share: token=%s, service=%s, expires=%s", 
+
+		log.Printf("Created share: token=%s, service=%s, expires=%s",
 			token[:10]+"...", req.ServiceName, shareData.ExpiresAt.Format(time.RFC3339))
 	}
 }
@@ -138,7 +138,7 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 
 		// Mark as viewed and delete (one-time use)
 		store.MarkViewed(token)
-		
+
 		response := ShareRetrieveResponse{
 			Password:    shareData.Password,
 			ServiceName: shareData.ServiceName,
@@ -153,8 +153,8 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
-		
-		log.Printf("Share viewed and deleted: token=%s, service=%s", 
+
+		log.Printf("Share viewed and deleted: token=%s, service=%s",
 			token[:10]+"...", shareData.ServiceName)
 	}
 }
@@ -190,7 +190,7 @@ func DeleteShareHandler(store *ShareStore) http.HandlerFunc {
 		json.NewEncoder(w).Encode(map[string]string{
 			"message": "Share deleted successfully",
 		})
-		
+
 		log.Printf("Share manually deleted: token=%s", token[:10]+"...")
 	}
 }

@@ -89,7 +89,7 @@ func main() {
 	// Create file server
 	fs := http.FileServer(http.Dir(frontendPath))
 
-	// Handle all routes - serve index.html for SPA routing
+	// Handle all routes - serve appropriate HTML files
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// If it's an API request, it should have been handled above
 		if len(r.URL.Path) >= 4 && r.URL.Path[:4] == "/api" {
@@ -97,9 +97,9 @@ func main() {
 			return
 		}
 
-		// For /share/* routes, serve index.html (SPA routing)
+		// For /share/* routes, serve share.html (dedicated share page)
 		if len(r.URL.Path) >= 6 && r.URL.Path[:6] == "/share" {
-			http.ServeFile(w, r, frontendPath+"/index.html")
+			http.ServeFile(w, r, frontendPath+"/share.html")
 			return
 		}
 

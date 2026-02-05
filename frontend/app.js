@@ -25,11 +25,9 @@ class PasswordManager {
     }
 
     async init() {
-        // Сначала проверяем, не share ли это страница
-        const isSharePage = await this.checkSharePage();
-        
-        // Если это share страница, останавливаем инициализацию
-        if (isSharePage) {
+        // Проверяем, не share ли это страница - если да, ничего не делаем
+        // (share страница обслуживается отдельным share.html)
+        if (window.location.pathname.startsWith('/share/')) {
             return;
         }
         
