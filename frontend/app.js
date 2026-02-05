@@ -466,10 +466,13 @@ class PasswordManager {
 
             const data = await response.json();
 
+            // Формируем правильный share URL на основе текущего домена
+            const shareUrl = `${window.location.protocol}//${window.location.host}/share/${data.token}`;
+
             // Show success
             document.getElementById('shareLoading').classList.add('hidden');
             document.getElementById('shareSuccess').classList.remove('hidden');
-            document.getElementById('shareLink').value = data.share_url;
+            document.getElementById('shareLink').value = shareUrl;
             document.getElementById('expiresAt').textContent = new Date(data.expires_at).toLocaleString();
 
             this.showToast('Share link created successfully!', 'success');
