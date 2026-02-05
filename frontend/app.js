@@ -507,7 +507,13 @@ class PasswordManager {
         
         if (match) {
             const token = match[1];
-            await this.loadSharedPassword(token);
+            try {
+                await this.loadSharedPassword(token);
+            } catch (error) {
+                console.error('Error in checkSharePage:', error);
+                // Ensure we always show something even if there's an unexpected error
+                this.showSharePage(null, 'An unexpected error occurred. Please try again.');
+            }
             return true; // Это share страница
         }
         return false; // Обычная страница
@@ -519,14 +525,22 @@ class PasswordManager {
     async loadSharedPassword(token) {
         try {
             console.log('Loading shared password for token:', token);
-            const response = await fetch(`${this.apiBaseUrl}/share/${token}`);
+            // Encode the token to handle special characters (base64 may contain +, /, =)
+            const encodedToken = encodeURIComponent(token);
+            const response = await fetch(`${this.apiBaseUrl}/share/${encodedToken}`);
             
             if (!response.ok) {
                 if (response.status === 410) {
-                    const data = await response.json();
-                    this.showSharePage(null, data.error);
+                    try {
+                        const data = await response.json();
+                        this.showSharePage(null, data.error || 'This share has already been viewed');
+                    } catch (e) {
+                        this.showSharePage(null, 'This share has already been viewed');
+                    }
+                } else if (response.status === 404) {
+                    this.showSharePage(null, 'Share not found or has expired');
                 } else {
-                    throw new Error('Failed to load shared password');
+                    this.showSharePage(null, 'Failed to load shared password');
                 }
                 return;
             }
@@ -534,10 +548,16 @@ class PasswordManager {
             const data = await response.json();
             console.log('Received share data:', data);
             
+            // Validate received data
+            if (!data || !data.password) {
+                this.showSharePage(null, 'Invalid share data received');
+                return;
+            }
+            
             // Пароль приходит напрямую, без шифрования
             this.showSharePage({
-                serviceName: data.service_name,
-                username: data.username,
+                serviceName: data.service_name || 'Unknown Service',
+                username: data.username || 'Unknown',
                 password: data.password,
                 createdAt: data.created_at
             });
@@ -551,58 +571,70 @@ class PasswordManager {
      * Show share page
      */
     showSharePage(shareData, errorMessage = null) {
+        // Use inline styles to ensure they work with dynamically injected HTML
+        // (Tailwind CDN doesn't process dynamically added classes with custom config)
+        const styles = {
+            bgDark: 'background-color: #1A1A2E',
+            bgMedium: 'background-color: #252541',
+            textPrimary: 'color: #A78BFA',
+            textAccent: 'color: #C084FC',
+            textWhite: 'color: white',
+            textGray: 'color: #9CA3AF',
+            borderMedium: 'border-color: #252541',
+        };
+        
         document.body.innerHTML = `
-            <div class="min-h-screen flex items-center justify-center p-4">
-                <div class="bg-bg-dark rounded-xl p-8 max-w-md w-full shadow-2xl border border-bg-medium">
-                    <h1 class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent">
+            <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+                <div style="${styles.bgDark}; border-radius: 0.75rem; padding: 2rem; max-width: 28rem; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid #252541;">
+                    <h1 style="font-size: 1.875rem; font-weight: bold; margin-bottom: 1.5rem; text-align: center; ${styles.textPrimary}">
                         🔐 Shared Password
                     </h1>
 
                     ${errorMessage ? `
-                        <div class="bg-red-900 bg-opacity-30 border border-red-700 rounded-lg p-4 mb-4">
-                            <p class="text-red-300">❌ ${errorMessage}</p>
+                        <div style="background-color: rgba(127, 29, 29, 0.3); border: 1px solid #b91c1c; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+                            <p style="color: #fca5a5;">❌ ${this.escapeHtml(errorMessage)}</p>
                         </div>
-                        <a href="/" class="block text-center bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg font-semibold transition-all">
+                        <a href="/" style="display: block; text-align: center; background-color: #7C3AED; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; ${styles.textWhite}; text-decoration: none;">
                             Go to Password Manager
                         </a>
                     ` : `
-                        <div class="bg-green-900 bg-opacity-30 border border-green-700 rounded-lg p-4 mb-6">
-                            <p class="text-green-300">✓ Password retrieved successfully!</p>
+                        <div style="background-color: rgba(20, 83, 45, 0.3); border: 1px solid #15803d; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="color: #86efac;">✓ Password retrieved successfully!</p>
                         </div>
 
-                        <div class="space-y-4 mb-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Service</label>
-                                <div class="bg-bg-medium rounded-lg p-3 text-white">${this.escapeHtml(shareData.serviceName)}</div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; font-size: 0.875rem; font-weight: 500; ${styles.textGray}; margin-bottom: 0.5rem;">Service</label>
+                                <div style="${styles.bgMedium}; border-radius: 0.5rem; padding: 0.75rem; ${styles.textWhite}">${this.escapeHtml(shareData.serviceName)}</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; font-size: 0.875rem; font-weight: 500; ${styles.textGray}; margin-bottom: 0.5rem;">Username</label>
+                                <div style="${styles.bgMedium}; border-radius: 0.5rem; padding: 0.75rem; ${styles.textWhite}">${this.escapeHtml(shareData.username)}</div>
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Username</label>
-                                <div class="bg-bg-medium rounded-lg p-3 text-white">${this.escapeHtml(shareData.username)}</div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-                                <div class="bg-bg-medium rounded-lg p-3 flex items-center justify-between">
-                                    <code class="font-mono text-accent">${this.escapeHtml(shareData.password)}</code>
+                                <label style="display: block; font-size: 0.875rem; font-weight: 500; ${styles.textGray}; margin-bottom: 0.5rem;">Password</label>
+                                <div style="${styles.bgMedium}; border-radius: 0.5rem; padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <code style="font-family: monospace; ${styles.textAccent}">${this.escapeHtml(shareData.password)}</code>
                                     <button onclick="navigator.clipboard.writeText('${this.escapeHtml(shareData.password).replace(/'/g, "\\'")}').then(() => alert('Copied!'))" 
-                                        class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg transition-all ml-2">
+                                        style="background-color: #7C3AED; padding: 0.5rem 1rem; border-radius: 0.5rem; ${styles.textWhite}; border: none; cursor: pointer; margin-left: 0.5rem;">
                                         📋 Copy
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded-lg p-4 mb-6">
-                            <p class="text-yellow-300 text-sm">
+                        <div style="background-color: rgba(113, 63, 18, 0.2); border: 1px solid #a16207; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="color: #fde047; font-size: 0.875rem;">
                                 ⚠️ <strong>Security Notice:</strong><br>
                                 • This link has been destroyed and can no longer be accessed<br>
                                 • Make sure to save the password securely<br>
-                                • Shared at: ${new Date(shareData.createdAt).toLocaleString()}
+                                • Shared at: ${shareData.createdAt ? new Date(shareData.createdAt).toLocaleString() : 'Unknown'}
                             </p>
                         </div>
 
-                        <a href="/" class="block text-center bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg font-semibold transition-all">
+                        <a href="/" style="display: block; text-align: center; background-color: #7C3AED; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; ${styles.textWhite}; text-decoration: none;">
                             Go to Password Manager
                         </a>
                     `}
@@ -615,6 +647,10 @@ class PasswordManager {
      * Escape HTML to prevent XSS
      */
     escapeHtml(text) {
+        if (text === null || text === undefined) {
+            return '';
+        }
+        const str = String(text);
         const map = {
             '&': '&amp;',
             '<': '&lt;',
@@ -622,7 +658,7 @@ class PasswordManager {
             '"': '&quot;',
             "'": '&#039;'
         };
-        return text.replace(/[&<>"']/g, m => map[m]);
+        return str.replace(/[&<>"']/g, m => map[m]);
     }
 
     /**

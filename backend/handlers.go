@@ -92,9 +92,11 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 			return
 		}
 
-		// Extract token from path
+		// Extract token from path - r.URL.Path is already URL-decoded by Go's HTTP server
 		path := strings.TrimPrefix(r.URL.Path, "/api/share/")
 		token := path
+
+		log.Printf("GetShareHandler: received request for token: %s (raw path: %s)", token, r.URL.RawPath)
 
 		if token == "" {
 			http.Error(w, "Token required", http.StatusBadRequest)
@@ -104,6 +106,7 @@ func GetShareHandler(store *ShareStore) http.HandlerFunc {
 		// Retrieve share
 		shareData, exists := store.Get(token)
 		if !exists {
+			log.Printf("GetShareHandler: share not found for token: %s", token)
 			http.Error(w, "Share not found or expired", http.StatusNotFound)
 			return
 		}

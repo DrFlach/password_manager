@@ -15,7 +15,7 @@ func corsMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		if allowedOrigin == "" {
 			allowedOrigin = "*"
 		}
-		
+
 		w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -88,7 +88,7 @@ func main() {
 
 	// Create file server
 	fs := http.FileServer(http.Dir(frontendPath))
-	
+
 	// Handle all routes - serve index.html for SPA routing
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// If it's an API request, it should have been handled above
@@ -96,13 +96,13 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
-		
+
 		// For /share/* routes, serve index.html (SPA routing)
 		if len(r.URL.Path) >= 6 && r.URL.Path[:6] == "/share" {
 			http.ServeFile(w, r, frontendPath+"/index.html")
 			return
 		}
-		
+
 		// Check if file exists
 		path := frontendPath + r.URL.Path
 		if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -110,7 +110,7 @@ func main() {
 			http.ServeFile(w, r, frontendPath+"/index.html")
 			return
 		}
-		
+
 		// Serve the requested file
 		fs.ServeHTTP(w, r)
 	})
@@ -119,7 +119,7 @@ func main() {
 	log.Printf("📍 Base URL: %s", baseURL)
 	log.Printf("📁 Frontend path: %s", frontendPath)
 	log.Printf("🔧 API Health: http://localhost:%s/api/health", port)
-	
+
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err)
 	}
