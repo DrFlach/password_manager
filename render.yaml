@@ -1,0 +1,16 @@
+# Render.com Blueprint для автоматического деплоя
+services:
+  - type: web
+    name: password-manager
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        generateValue: true
+      - key: BASE_URL
+        value: https://password-manager.onrender.com
+      - key: ALLOWED_ORIGIN
+        value: "*"
+    healthCheckPath: /api/health
