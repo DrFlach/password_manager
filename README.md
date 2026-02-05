@@ -338,7 +338,7 @@ localStorage.clear()
 
 **Solution**: Update the `corsMiddleware` in `backend/main.go` to include your domain.
 
-## 📄 License
+## License
 
 MIT License - feel free to use this project however you'd like!
 
