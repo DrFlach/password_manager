@@ -1,4 +1,4 @@
-# 🔐 Secure Password Manager
+🔐 Secure Password Manager
 
 A modern, secure password manager web application with end-to-end encryption and one-time password sharing capabilities.
 
@@ -6,41 +6,41 @@ A modern, secure password manager web application with end-to-end encryption and
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## ✨ Features
+## Features
 
-### 🔒 Security First
+### Security First
 - **Client-side AES-GCM encryption** - All passwords are encrypted in your browser before storage
 - **Web Crypto API** - Industry-standard cryptographic operations
 - **No plaintext storage** - Passwords are never stored unencrypted
 - **Secure sharing** - One-time use links with automatic expiration
 
-### 💼 Password Management
+### Password Management
 - **Add/Edit/Delete** passwords with ease
 - **Organized storage** - Service name, username, password, URL, and notes
 - **Search & filter** - Quickly find any password
 - **Local storage** - All data stays in your browser (encrypted)
 
-### 📤 Secure Sharing
+### Secure Sharing
 - **One-time password sharing** - Generate secure shareable links
 - **Automatic expiration** - Links expire after 24 hours OR first view
 - **Customizable expiration** - Choose 1, 12, or 24 hours
 - **View tracking** - See when a link was opened
 - **End-to-end encryption** - Passwords are encrypted during transit
 
-### 🎲 Password Generator
+### Password Generator
 - **Customizable length** - 8 to 32 characters
 - **Multiple character sets** - Uppercase, lowercase, numbers, symbols
 - **Memorable passwords** - Word-based passwords (correct-horse-battery-staple style)
 - **Strength meter** - Visual feedback on password strength
 - **Cryptographically secure** - Uses Web Crypto API for random generation
 
-### 🎨 Modern UI
+### Modern UI
 - **Dark theme** - Beautiful violet-black color scheme
 - **Responsive design** - Works on desktop and mobile
 - **Smooth animations** - Clean, modern transitions
 - **Tailwind CSS** - Professional, consistent styling
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 password-manager/
@@ -55,7 +55,7 @@ password-manager/
 └── README.md               # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -106,7 +106,7 @@ That's it! The application is now running.
 
 ### Generating a Password
 
-1. Click the **⚡ Generate Password** button
+1. Click the **Generate Password** button
 
 2. Customize your password:
    - Adjust the length slider (8-32 characters)
@@ -119,7 +119,7 @@ That's it! The application is now running.
 
 ### Sharing a Password Securely
 
-1. Click the **📤** (share) button on any password card
+1. Click the (share) button on any password card
 
 2. Choose expiration time:
    - 1 hour
@@ -216,7 +216,7 @@ Health check endpoint.
 }
 ```
 
-## 🔐 Security Features
+## Security Features
 
 ### Client-Side Encryption
 
@@ -279,7 +279,7 @@ For production:
    ./password-manager
    ```
 
-## 🎨 Customization
+## Customization
 
 ### Colors
 
@@ -302,7 +302,7 @@ tailwind.config = {
 }
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Backend not starting
 
@@ -342,12 +342,10 @@ localStorage.clear()
 
 MIT License - feel free to use this project however you'd like!
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [Go](https://golang.org/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 - Encryption via [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
 **Made with 💜 by a DevOpsSec Eduard Shanovskiy and fullstack Gleb Deviatka**
-
-*Keep your passwords secure!*
