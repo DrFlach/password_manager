@@ -26,14 +26,17 @@ class PasswordManager {
 
     async init() {
         // Сначала проверяем, не share ли это страница
-        await this.checkSharePage();
+        const isSharePage = await this.checkSharePage();
         
-        // Если это не share страница, загружаем обычные данные
-        if (!window.location.pathname.startsWith('/share/')) {
-            this.loadPasswords();
-            this.setupEventListeners();
-            this.renderPasswords();
+        // Если это share страница, останавливаем инициализацию
+        if (isSharePage) {
+            return;
         }
+        
+        // Загружаем пароли и ждем завершения
+        await this.loadPasswords();
+        this.setupEventListeners();
+        this.renderPasswords();
     }
 
     /**
@@ -505,7 +508,9 @@ class PasswordManager {
         if (match) {
             const token = match[1];
             await this.loadSharedPassword(token);
+            return true; // Это share страница
         }
+        return false; // Обычная страница
     }
 
     /**
